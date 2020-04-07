@@ -1,4 +1,4 @@
-package model
+package com.bravemax.animals.model
 
 data class Key(
     val massage: String?,

@@ -1,4 +1,4 @@
-package view
+package com.bravemax.animals.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

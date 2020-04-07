@@ -1,4 +1,4 @@
-package model
+package com.bravemax.animals.model
 
 import android.os.Parcel
 import android.os.Parcelable

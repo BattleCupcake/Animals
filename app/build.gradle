@@ -66,6 +66,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    implementation "androidx.preference:preference-ktx:1.1.0"
+    implementation "androidx.preference:preference:1.1.0"
+
 
     testImplementation "org.mockito:mockito-inline:2.21.0"
     testImplementation "android.arch.core:core-testing:1.1.1"
