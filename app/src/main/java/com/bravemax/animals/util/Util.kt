@@ -1,7 +1,6 @@
 package com.bravemax.animals.util
 
 import android.content.Context
-import android.transition.CircularPropagation
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
