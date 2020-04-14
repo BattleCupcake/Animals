@@ -6,9 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import com.bravemax.animals.di.modules.CONTEXT_APP
 import com.bravemax.animals.di.modules.TypeOfContext
 import com.bravemax.animals.model.Animal
+import com.bravemax.animals.model.Key
 import com.bravemax.animals.model.service.AnimalApiService
 import com.bravemax.animals.util.SharedPreferencesHelper
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
@@ -56,10 +60,41 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getKey() {
-        disposable
+        disposable.add(
+            apiService.getApiKey()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<Key>() {
+                    override fun onSuccess(t: Key) {
+                        if (t.key.isNullOrEmpty()) {
+                            loadError.value = true
+                            loading.value = false
+                        } else {
+                            prefs.saveApiKey(t.key)
+                            getAnimals(t.key)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        if (!invalidApiKey) {
+                            invalidApiKey = true
+                            getKey()
+                        } else {
+                            e.printStackTrace()
+                            loadError.value = false
+                            loading.value = true
+                        }
+                    }
+                })
+        )
     }
 
     private fun getAnimals(key: String) {
 
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
     }
 }
