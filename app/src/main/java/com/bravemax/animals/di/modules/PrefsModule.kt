@@ -3,10 +3,12 @@ package com.bravemax.animals.di.modules
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import com.bravemax.animals.util.SharedPreferencesHelper
+import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@Module
 open class PrefsModule {
 
     @Provides

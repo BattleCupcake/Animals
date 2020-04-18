@@ -7,11 +7,11 @@
 
         <variable
             name="listAnimal"
-            type="model.Animal" />
+            type="com.bravemax.animals.model.Animal" />
 
         <variable
             name="listener"
-            type="view.AnimalClickListener" />
+            type="com.bravemax.animals.view.AnimalClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

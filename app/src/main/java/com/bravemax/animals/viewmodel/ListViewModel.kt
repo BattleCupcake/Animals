@@ -3,6 +3,8 @@ package com.bravemax.animals.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.bravemax.animals.di.component.DaggerViewModelComponent
+import com.bravemax.animals.di.modules.AppModule
 import com.bravemax.animals.di.modules.CONTEXT_APP
 import com.bravemax.animals.di.modules.TypeOfContext
 import com.bravemax.animals.model.Animal
@@ -37,7 +39,12 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
 
     fun inject() {
         if (!injected) {
-
+            DaggerViewModelComponent.builder()
+                .appModule(
+                    AppModule(getApplication())
+                )
+                .build()
+                .inject(this)
         }
     }
 
@@ -90,6 +97,25 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getAnimals(key: String) {
+        disposable.add(
+            apiService.getAnimals(key)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<List<Animal>>() {
+                    override fun onSuccess(animalList: List<Animal>) {
+                        loading.value = false
+                        loadError.value = false
+                        animals.value = animalList
+                    }
+
+                    override fun onError(e: Throwable) {
+                        e.printStackTrace()
+                        loading.value = false
+                        loadError.value = true
+                        animals.value = null
+                    }
+                })
+        )
 
     }
 
