@@ -27,7 +27,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            animalArg = DetailFragmentArgs.fromBundle(it).animalArg
+            animalArg = DetaDetailFragmentArgs.fromBundle(it).animalArg
         }
         dataBinding.animal = animalArg
     }

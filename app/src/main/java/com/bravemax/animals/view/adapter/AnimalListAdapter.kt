@@ -8,14 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bravemax.animals.R
+import com.bravemax.animals.databinding.ItemAinmalBinding
 import com.bravemax.animals.model.Animal
 import com.bravemax.animals.view.AnimalClickListener
 import com.bravemax.animals.view.fragments.ListFragmentDirections
 
-class AnimalListAdapter(private val animalList: ArrayList<Animal>) : RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>(), AnimalClickListener {
+class AnimalListAdapter(private val animalList: ArrayList<Animal>)
+    : RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>(), AnimalClickListener {
 
-
-    class AnimalViewHolder(var view: ItemAnimalBinding) : RecyclerView.ViewHolder(view.root)
 
     fun updateAnimalList(newAnimalList: List<Animal>) {
         animalList.clear()
@@ -25,10 +25,11 @@ class AnimalListAdapter(private val animalList: ArrayList<Animal>) : RecyclerVie
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val view = DataBindingUtil.inflate<ItemAnimalBinding>(
+        val view = DataBindingUtil.inflate<ItemAinmalBinding>(
             inflater,
             R.layout.item_ainmal,
-            parent
+            parent,
+            false
         )
         return AnimalViewHolder(view)
     }
@@ -43,10 +44,12 @@ class AnimalListAdapter(private val animalList: ArrayList<Animal>) : RecyclerVie
     override fun onClick(v: View) {
         for (animal in animalList) {
             if (v.tag == animal.name) {
-                val action = ListFragmentDirections.actionDetail(animal)
+                val action = ListFragmentDirections.actionList(animal)
                 Navigation.findNavController(v).navigate(action)
             }
         }
     }
+
+    class AnimalViewHolder(var view: ItemAinmalBinding) : RecyclerView.ViewHolder(view.root)
 
 }
